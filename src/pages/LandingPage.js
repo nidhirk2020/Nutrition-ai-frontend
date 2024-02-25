@@ -21,10 +21,9 @@ export default function Landing() {
     <div>
       <div>
         <h1>
-          Nutrition AI <br />
-          <span style={{ color: "red" }}>AI for Nutrition</span>
+          MealMentor <br />
         </h1>
-        <p>Empowering your nutrition journey with the power of AI.</p>
+        <p> Your Personal Nutrition Assistant for Smarter, Healthier Meals..</p>
         <div>
           {user ? (
             <button onClick={() => navigate("/home")}>

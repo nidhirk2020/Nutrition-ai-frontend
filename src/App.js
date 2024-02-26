@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 
 import { supabase } from "./supabase";
 import { AuthContext } from "./context/AuthContext";
 import { THEME } from "./utils/constants";
+import Home from "./pages/Home";
 
 function App() {
   const { user, signIn } = useContext(AuthContext);
@@ -62,9 +63,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage theme={theme}/>} />
         {isLoggedIn && (
-          <>
-            <Route path="/home" element={<Home />} />
-          </>
+          <Route path="" element={<Dashboard />}>
+            <Route path="home" element={<Home />}/>
+          </Route>
         )}
       </Routes>
     </div>

@@ -3,9 +3,8 @@ import React from "react";
 
 const Home = () => {
   return (
-    <div className="h-screen">
-      <h1>Welcome to Nutrition AI</h1>
-      {/* Add your content here */}
+    <div className="flex items-center mx-auto font-bold text-3xl sm:text-5xl lg:text-6xl -mt-20">
+      <h1>Welcome to Meal Mentor</h1>
     </div>
   );
 };

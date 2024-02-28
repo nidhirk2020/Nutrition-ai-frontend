@@ -1,5 +1,6 @@
-/* eslint-disable no-dupe-keys */
 import React, { useState } from "react";
+import axios from "axios";
+import qs from "qs"; // Import qs library for encoding data in x-www-form-urlencoded format
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -38,25 +39,25 @@ const UserInfo = () => {
     const email = user.email;
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://nutrition-ai.onrender.com/mongo_db/write_user_info_to_mongo",
+        qs.stringify({ data: userInfo }), // Convert data to x-www-form-urlencoded format
         {
-          method: "POST",
           headers: {
             accept: "application/json",
             "email-id": email,
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded", // Set content type
           },
-          body: JSON.stringify({ data: userInfo }),
         }
       );
-      console.log(response);
+
+      console.log(response.data);
 
       if (response.status >= 200 && response.status < 300) {
         console.log("User info successfully submitted to the server!");
         history.push("/success");
       } else {
-        const responseBody = await response.json(); // This will parse the JSON response
+        const responseBody = response.data;
         console.error(
           "Failed to submit user info to the server. Status:",
           response.status,
@@ -68,7 +69,6 @@ const UserInfo = () => {
       console.error("Error occurred while submitting user info:", error);
     }
   };
-
   return (
     <div className="container mx-auto mt-8">
       <h1 className="text-3xl font-bold mb-4">User Information</h1>

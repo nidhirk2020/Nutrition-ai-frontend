@@ -4,6 +4,7 @@ import axios from "axios";
 const MealGenerator = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [generatedMeal, setGeneratedMeal] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Fetch user information
@@ -31,6 +32,7 @@ const MealGenerator = () => {
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const generateMeal = async () => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://nutrition-ai.onrender.com/chat_ai/meal_generator",
@@ -53,6 +55,7 @@ const MealGenerator = () => {
     } catch (error) {
       console.error("Error generating meal:", error);
     }
+    setLoading(false);
   };
 
   const showMeal = async () => {
@@ -76,6 +79,8 @@ const MealGenerator = () => {
       console.error("Error showing meal:", error);
     }
   };
+
+  if(loading) return <span className="loading loading-dots loading-lg"></span>
 
   return (
     <div>

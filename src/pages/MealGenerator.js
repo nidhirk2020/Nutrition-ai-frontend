@@ -80,7 +80,7 @@ const MealGenerator = () => {
     }
   };
 
-  if(loading) return <span className="loading loading-dots loading-lg"></span>
+  if (loading) return <span className="loading loading-dots loading-lg"></span>;
 
   return (
     <div>

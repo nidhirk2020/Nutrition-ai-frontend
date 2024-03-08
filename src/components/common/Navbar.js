@@ -44,8 +44,8 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className="navbar-center">
-        <Link to="/home" className="text-2xl font-semibold">
+      <div className="navbar-center pl-[13rem]">
+        <Link to="/home" className="text-3xl font-bold tracking-wide relative inline cursor-pointer before:bg-blue-500  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100">
           MealMentor
         </Link>
       </div>

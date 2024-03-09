@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const Chat = () => {
+  const { user } = useAuth();
   const [history, setHistory] = useState({});
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
 
   const handleUserQuery = async (userQuery) => {
+    const email = user.email;
     try {
       let newChatHistory = [...chatHistory];
       newChatHistory.push({
@@ -25,7 +28,7 @@ const Chat = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         params: {
-          email_id: "ankurvermaaxz@gmail.com", // Hardcoded email for now
+          email_id: email,
         },
       };
 

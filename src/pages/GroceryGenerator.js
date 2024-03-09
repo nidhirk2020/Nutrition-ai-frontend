@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const GroceryGenerator = () => {
+  const { user } = useAuth();
   const [groceryList, setGroceryList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const generateGroceryList = async () => {
+    const email = user.email;
     try {
       setLoading(true);
       // First API call to generate grocery
@@ -18,7 +21,7 @@ const GroceryGenerator = () => {
             "Content-Type": "application/json",
           },
           params: {
-            email_id: "ankurvermaaxz@gmail.com",
+            email_id: email,
           },
         }
       );
@@ -36,7 +39,7 @@ const GroceryGenerator = () => {
             "Content-Type": "application/json",
           },
           params: {
-            email_id: "ankurvermaaxz@gmail.com",
+            email_id: email,
           },
         }
       );
@@ -51,10 +54,8 @@ const GroceryGenerator = () => {
 
       // Check if parsedGroceryList is iterable (an array)
       if (Array.isArray(parsedGroceryList)) {
-        // Combine or use the data as needed
-        const combinedGroceryList = [...generateData, ...parsedGroceryList];
-        // Update the state with the combined grocery list
-        setGroceryList(combinedGroceryList);
+        // Update the state with the parsed grocery list
+        setGroceryList(parsedGroceryList);
       } else {
         console.error(
           "Invalid data format for parsedGroceryList:",
@@ -63,13 +64,17 @@ const GroceryGenerator = () => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  if(loading) return <div className="w-full flex justify-center">
-    <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
-  </div>;
+  if (loading)
+    return (
+      <div className="w-full flex justify-center">
+        <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
+      </div>
+    );
 
   return (
     <div className="w-full flex flex-col items-center p-5">
@@ -81,7 +86,11 @@ const GroceryGenerator = () => {
       </button>
 
       {/* Display the generated grocery list horizontally */}
-      <div style={{ whiteSpace: "pre-wrap" }}>{groceryList}</div>
+      <div style={{ whiteSpace: "pre-wrap" }}>
+        {groceryList.map((item, index) => (
+          <span key={index}>{item}</span>
+        ))}
+      </div>
     </div>
   );
 };

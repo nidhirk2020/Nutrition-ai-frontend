@@ -51,6 +51,8 @@ const GroceryGenerator = () => {
       const parsedGroceryList = showData.grocery_list
         .split(",")
         .map((item) => item.trim());
+      
+      // commaSeparatedList = parsedGroceryList.join(', ');
 
       // Check if parsedGroceryList is iterable (an array)
       if (Array.isArray(parsedGroceryList)) {
@@ -87,9 +89,14 @@ const GroceryGenerator = () => {
 
       {/* Display the generated grocery list horizontally */}
       <div style={{ whiteSpace: "pre-wrap" }}>
+      <ol style={{ listStyle: 'none', paddingLeft: '20px' }}>
         {groceryList.map((item, index) => (
-          <span key={index}>{item}</span>
+          <li key={index} style={{ marginBottom: '10px' }}>
+            <input type="checkbox" id={`item-${index}`} />
+            <label htmlFor={`item-${index}`} style={{ marginLeft: '10px' }}>{item}</label>
+          </li>
         ))}
+      </ol>
       </div>
     </div>
   );

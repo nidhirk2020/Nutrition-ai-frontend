@@ -1,38 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import MealPlan from "../components/core/MealPlan";
+import { useAuth } from "../context/AuthContext";
 
 const MealGenerator = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const { user } = useAuth();
   const [generatedMeal, setGeneratedMeal] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Fetch user information
-    const fetchUserInfo = async () => {
-      try {
-        const response = await axios.post(
-          "https://nutrition-ai.onrender.com/mongo_db/read_user_info_from_mongo",
-          {},
-          {
-            headers: {
-              accept: "application/json",
-              "email-id": "ankurvermaaxz@gmail.com",
-            },
-          }
-        );
-
-        // Update state with user information
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Error fetching user information:", error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []); // Empty dependency array ensures the effect runs only once on mount
-
   const generateMeal = async () => {
+    const email = user.email;
     setLoading(true);
     try {
       const response = await axios.post(
@@ -43,11 +20,11 @@ const MealGenerator = () => {
             accept: "application/json",
           },
           params: {
-            email_id: "ankurvermaaxz@gmail.com",
+            email_id: email,
           },
         }
       );
-
+      console.log(response);
       // After generating meal, show it
       showMeal();
     } catch (error) {
@@ -66,7 +43,7 @@ const MealGenerator = () => {
             accept: "application/json",
           },
           params: {
-            email_id: "ankurvermaaxz@gmail.com",
+            email_id: user.email,
           },
         }
       );
@@ -80,9 +57,12 @@ const MealGenerator = () => {
     }
   };
 
-  if(loading) return <div className="w-full flex justify-center">
-    <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
-  </div>;
+  if (loading)
+    return (
+      <div className="w-full flex justify-center">
+        <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
+      </div>
+    );
 
   return (
     <div className="w-full flex flex-col items-center p-5">
@@ -95,7 +75,7 @@ const MealGenerator = () => {
 
       {generatedMeal && (
         <div>
-          <MealPlan mealDetails={JSON.stringify(generatedMeal, null, 2)}/>
+          <MealPlan mealDetails={JSON.stringify(generatedMeal, null, 2)} />
         </div>
       )}
     </div>

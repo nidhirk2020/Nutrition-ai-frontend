@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import MealPlan from "../components/core/MealPlan";
 
 const MealGenerator = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -47,9 +48,6 @@ const MealGenerator = () => {
         }
       );
 
-      // Update state with generated meal
-      setGeneratedMeal(response.data);
-
       // After generating meal, show it
       showMeal();
     } catch (error) {
@@ -74,26 +72,22 @@ const MealGenerator = () => {
       );
 
       // Log or update state with the meal details as needed
+      // Update state with generated meal
+      setGeneratedMeal(response.data);
       console.log("Meal details:", response.data);
     } catch (error) {
       console.error("Error showing meal:", error);
     }
   };
 
-  if (loading) return <span className="loading loading-dots loading-lg"></span>;
+  if(loading) return <div className="w-full flex justify-center">
+    <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
+  </div>;
 
   return (
-    <div>
+    <div className="w-full flex flex-col items-center p-5">
       <button
-        style={{
-          padding: "10px 20px",
-          fontSize: "16px",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "2px solid #4CAF50",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
+        className="btn btn-info text-white text-lg font-semibold mb-10 w-fit"
         onClick={generateMeal}
       >
         Generate Meal
@@ -101,8 +95,7 @@ const MealGenerator = () => {
 
       {generatedMeal && (
         <div>
-          <h2>Generated Meal</h2>
-          <pre>{JSON.stringify(generatedMeal, null, 2)}</pre>
+          <MealPlan mealDetails={JSON.stringify(generatedMeal, null, 2)}/>
         </div>
       )}
     </div>

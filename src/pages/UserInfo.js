@@ -3,10 +3,14 @@ import axios from "axios";
 import qs from "qs"; // Import qs library for encoding data in x-www-form-urlencoded format
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 const UserInfo = () => {
   const { user } = useAuth();
   const history = useNavigate();
+
+  const [section, setSection] = useState(1);
 
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -72,9 +76,14 @@ const UserInfo = () => {
   return (
     <div className="container mx-auto pt-8 overflow-auto">
       <div className="xl:pr-[30rem]">
-        <h1 className="text-3xl font-bold mb-4 text-center">User Information</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center  ">User Information</h1>
+
         <form className="max-w-lg mx-auto">
-          <div className="mb-4">
+
+          {
+            section === 1 && 
+            <>          
+            <div className="mb-4">
             <label className="input input-bordered flex items-center gap-4"><span className="font-semibold">Name</span>
               <input
                 type="text"
@@ -164,8 +173,13 @@ const UserInfo = () => {
               />
             </label>
           </div>
+          </>
+          }
 
-          <div className="mb-4">
+          {
+            section === 2 &&
+            <>
+            <div className="mb-4">
             <label className="input input-bordered flex items-center gap-4"><span className="font-semibold">Activity Level</span>
               <select
                 name="activity_level"
@@ -248,8 +262,13 @@ const UserInfo = () => {
               </select>
             </label>
           </div>
+            </>
+          }
 
-          <div className="mb-4">
+          {
+            section === 3 &&
+            <>
+            <div className="mb-4">
             <label className="input input-bordered flex items-center gap-4"><span className="font-semibold">Dietary Restrictions</span>
               <select
                 name="dietary_restrictions"
@@ -349,18 +368,46 @@ const UserInfo = () => {
             </label>
           </div>
 
-          <div className="mb-4">
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="btn btn-info text-base text-white w-full mb-10"
-            >
-              Submit
-            </button>
+          <div className="mb-4 flex gap-6">
+
+            <IoIosArrowDropleftCircle
+              onClick={()=>setSection(section-1)}
+              className="text-6xl cursor-pointer text-[#41b2de] hover:text-[#009DE4] -mt-1"
+            />
+
+              <div className="w-full">
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="btn btn-info text-base text-white w-full mb-10"
+                >
+                  Submit
+                </button>
+              </div>
+
           </div>
+          </>
+          }
         </form>
+
+        <div className="flex justify-center gap-3">
+
+          {section === 2 &&
+            <IoIosArrowDropleftCircle
+            onClick={()=>setSection(section-1)}
+           className="text-6xl cursor-pointer text-[#41b2de] hover:text-[#009DE4]"/>
+          }
+
+          {section < 3 &&
+            <IoIosArrowDroprightCircle
+            onClick={()=>setSection(section+1)}
+           className="text-6xl cursor-pointer text-[#41b2de] hover:text-[#009DE4]"/>
+          }
+        
+        </div>
+
       </div>
-      <div className="shadow-xl fixed top-[9rem] xl:right-[3%] 2xl:right-[6%] rounded-lg p-2 xl:block hidden">
+      <div className="shadow-xl fixed top-[9rem] xl:right-[3%] 2xl:right-[6%] rounded-lg p-4 xl:block hidden bg-primary-content bg-opacity-80 text-white">
         <div className="text-xl mb-2 px-1 font-semibold">Tips</div>
           <div className="flex flex-col gap-4 text-sm">
               <p>• Ensure all information provided is accurate and up-to-date.</p>

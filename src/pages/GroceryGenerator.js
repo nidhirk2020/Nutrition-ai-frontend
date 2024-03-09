@@ -3,9 +3,11 @@ import axios from "axios";
 
 const GroceryGenerator = () => {
   const [groceryList, setGroceryList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const generateGroceryList = async () => {
     try {
+      setLoading(true);
       // First API call to generate grocery
       const generateResponse = await axios.post(
         "https://nutrition-ai.onrender.com/chat_ai/grocery_list_generator",
@@ -51,7 +53,6 @@ const GroceryGenerator = () => {
       if (Array.isArray(parsedGroceryList)) {
         // Combine or use the data as needed
         const combinedGroceryList = [...generateData, ...parsedGroceryList];
-
         // Update the state with the combined grocery list
         setGroceryList(combinedGroceryList);
       } else {
@@ -63,17 +64,17 @@ const GroceryGenerator = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    setLoading(false);
   };
 
+  if(loading) return <div className="w-full flex justify-center">
+    <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
+  </div>;
+
   return (
-    <div>
+    <div className="w-full flex flex-col items-center p-5">
       <button
-        style={{
-          border: "2px solid #333",
-          padding: "10px",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
+        className="btn btn-info text-lg font-semibold text-white mb-10 w-fit"
         onClick={generateGroceryList}
       >
         Generate Grocery

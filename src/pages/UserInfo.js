@@ -43,9 +43,11 @@ const UserInfo = () => {
     const email = user.email;
 
     try {
+      const userDetails = JSON.stringify(userInfo)
       const response = await axios.post(
         "https://nutrition-ai.onrender.com/mongo_db/write_user_info_to_mongo",
-        qs.stringify({ data: userInfo }), // Convert data to x-www-form-urlencoded format
+        // qs.stringify({ data: userInfo }), // Convert data to x-www-form-urlencoded format
+        {data:userDetails},
         {
           headers: {
             accept: "application/json",

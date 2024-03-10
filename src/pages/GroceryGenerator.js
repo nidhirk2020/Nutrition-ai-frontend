@@ -89,11 +89,11 @@ const GroceryGenerator = () => {
 
       {/* Display the generated grocery list horizontally */}
       <div style={{ whiteSpace: "pre-wrap" }}>
-      <ol style={{ listStyle: 'none', paddingLeft: '20px' }}>
+      <ol className="pl-5">
         {groceryList.map((item, index) => (
-          <li key={index} style={{ marginBottom: '10px' }}>
-            <input type="checkbox" id={`item-${index}`} />
-            <label htmlFor={`item-${index}`} style={{ marginLeft: '10px' }}>{item}</label>
+          <li key={index} className="mb-[10px] flex items-center gap-1">
+            <input type="checkbox" id={`item-${index}`} className="checkbox checkbox-info"/>
+            <label htmlFor={`item-${index}`} className="ml-[10px] capitalize">{item}</label>
           </li>
         ))}
       </ol>

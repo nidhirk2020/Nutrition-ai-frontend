@@ -57,7 +57,9 @@ const Dashboard = () => {
       </div>
       <Navbar />
       <div className="flex h-[calc(100vh-4rem)]">
-        <Sidebar />
+        <div className="hidden sm:block">
+          <Sidebar />
+        </div>
         <Outlet />
       </div>
     </div>

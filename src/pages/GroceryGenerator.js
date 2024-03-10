@@ -77,7 +77,7 @@ const GroceryGenerator = () => {
     );
 
   return (
-    <div className="w-full flex flex-col items-center p-5">
+    <div className="w-full flex flex-col items-center p-5 overflow-auto">
       <button
         className="btn btn-info text-lg font-semibold text-white mb-10 w-fit"
         onClick={generateGroceryList}

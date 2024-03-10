@@ -1,51 +1,56 @@
-import React from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+
+  const [toggle, setToggle] = useState(false)
+  const navMenu = useRef(null)
+
+  const closeOpenMenus = (e)=>{
+    if(navMenu.current && toggle && !navMenu.current.contains(e.target)){
+      setToggle(false)
+    }
+  }
+  document.addEventListener('mousedown',closeOpenMenus)
+
   return (
     <div className="navbar bg-base-300">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
+      <div className="navbar-start z-20">
+        {/* MOBILE NAVBAR */}
+        <div ref={navMenu} className='sm:hidden flex flex-1 justify-end items-center relative'>
+
+          {/*Hamburger icon*/}
+          <div id="menu-icon" className={`${toggle ? 'close' : ''} cursor-pointer z-20 absolute left-0`} 
+            onClick={()=>setToggle(!toggle)}>
+            <div className="bar bg-info"></div>
+            <div className="bar bg-info"></div>
+            <div className="bar bg-info"></div>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>
-              <Link to="/userinfo">User Information</Link>
-            </li>
-            <li>
-              <Link to="/mealgenerator">Meal Generator</Link>
-            </li>
-            <li>
-              <Link to="/grocerygenerator">Grocery Generator</Link>
-            </li>
-            <li>
-              <Link to="/chat">Chat</Link>
-            </li>
-          </ul>
+
+          <div className={`${!toggle ? 'hidden' : 'block'} absolute -top-5 left-2 backdrop-blur-lg rounded-md min-w-[210px] bg-base-200`}>
+
+            <ul className='flex flex-col gap-3 pt-6 pb-3 pl-10'>
+              <li className="hover:text-gray-500 text-[18px] font-medium cursor-pointer">
+                <Link to="/home" onClick={()=>setToggle(false)}>Home</Link>
+              </li>
+              <li className="hover:text-gray-500 text-[18px] font-medium cursor-pointer">
+                <Link to="/userinfo" onClick={()=>setToggle(false)}>User Information</Link>
+              </li>
+              <li className="hover:text-gray-500 text-[18px] font-medium cursor-pointer">
+                <Link to="/mealgenerator" onClick={()=>setToggle(false)}>Meal Generator</Link>
+              </li>
+              <li className="hover:text-gray-500 text-[18px] font-medium cursor-pointer">
+                <Link to="/grocerygenerator" onClick={()=>setToggle(false)}>Grocery Generator</Link>
+              </li>
+              <li className="hover:text-gray-500 text-[18px] font-medium cursor-pointer">
+                <Link to="/chat" onClick={()=>setToggle(false)}>Chat</Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="navbar-center pl-[13rem]">
-        <Link to="/home" className="text-3xl font-bold tracking-wide relative inline cursor-pointer before:bg-blue-500  before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100">
+      <div className="navbar-center sm:pl-[13rem]">
+        <Link to="/home" className="text-3xl font-bold tracking-wide relative inline cursor-pointer before:bg-blue-500 before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100">
           MealMentor
         </Link>
       </div>

@@ -19,7 +19,7 @@ export default function Landing() {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center bg-[url('/public/assets/background/bg.jpg')] bg-cover bg-center">
+    <div className="w-full h-screen flex flex-col justify-center items-center bg-[url('/public/assets/background/bg.jpg')] bg-cover bg-center overflow-auto">
         <h1 className="font-bold text-stone-900 text-5xl sm:text-7xl lg:text-9xl -mt-20">
           MealMentor
         </h1>

@@ -17,7 +17,7 @@ const Home = () => {
                   <div className='absolute bottom-20 right-32 h-[340px] w-[400px] rounded-full blur-[130px] bg-info'></div>
                   <div className='absolute top-20 left-32 h-[240px] w-[300px] rounded-full blur-[130px] bg-error'></div>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 rounded-xl bg-primary-content bg-opacity-80">
+                     className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 rounded-xl bg-secondary bg-opacity-75">
                         <div className="size-fit m-auto relative">
                             <div className="relative h-24 w-56 flex items-center">
                                 <svg className="absolute inset-0 size-full text-green-600" viewBox="0 0 254 104" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +30,7 @@ const Home = () => {
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-primary-content bg-opacity-80">
+                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75">
                         <div>
                             <div className="relative aspect-square rounded-full size-32 flex items-center justify-center border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
                               <FaHeartPulse className="text-8xl text-red-600 mt-2 ml-1"/>
@@ -42,7 +42,7 @@ const Home = () => {
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-primary-content bg-opacity-80">
+                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75">
                         <div>
                             <div className="pt-0 lg:px-6">
                             <svg className="w-full" viewBox="0 0 386 123" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,11 +67,11 @@ const Home = () => {
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1} 
-                    className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-primary-content bg-opacity-80">
+                    className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75">
                         <div className="flex flex-wrap justify-center items-center gap-6">
                             <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
                                 <div className="space-y-2">
-                                    <h2 className="text-3xl font-medium text-white">Take Back Your Time</h2>
+                                    <h2 className="text-3xl font-medium text-center text-white">Take Back Your Time</h2>
                                     <p className="text-gray-300 max-w-64 text-center">Skip the cookbook and Pinterest hunt. With MealMentor, you can transform your daily meals with quick, exciting, and nutritious dishes in just 20 minutes or less.</p>
                                 </div>
                             </div>
@@ -81,8 +81,8 @@ const Home = () => {
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-primary-content  bg-opacity-70 text-white flex items-center justify-center gap-10">
-                        <div className="text-5xl md:text-7xl font-bold">Get<br/>Started</div>
+                     className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75 text-white flex items-center justify-center gap-10">
+                        <div className="text-4xl sm:text-5xl md:text-7xl font-bold">Get<br/>Started</div>
                         <FaArrowRight className="text-9xl animate-pulse cursor-pointer" onClick={()=>navigate("/userinfo")}/>
                     </Tilt>
                 </div>

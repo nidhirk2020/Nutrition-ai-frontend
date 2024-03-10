@@ -39,6 +39,43 @@ const UserInfo = () => {
   const handleSubmit = async () => {
     const email = user.email;
 
+    //validation to prevent negative values
+    if(userInfo.age < 0){
+      alert("Age can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, age:0}))
+      return;
+    }
+    if(userInfo.height < 0){
+      alert("Height can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, height:0}))
+      return;
+    }
+    if(userInfo.weight < 0){
+      alert("Weight can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, weight:0}))
+      return;
+    }
+    if(userInfo.exercise_hours < 0){
+      alert("Exercise Hours can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, exercise_hours:0}))
+      return;
+    }
+    if(userInfo.work_hours < 0){
+      alert("Work Hours can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, work_hours:0}))
+      return;
+    }
+    if(userInfo.cooking_hours < 0){
+      alert("Cooking Hours can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, cooking_hours:0}))
+      return;
+    }
+    if(userInfo.budget < 0){
+      alert("Budget can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, budget:0}))
+      return;
+    }
+
     try {
       const userDetails = JSON.stringify(userInfo);
       const response = await axios.post(
@@ -78,7 +115,7 @@ const UserInfo = () => {
           User Information
         </h1>
 
-        <form className="max-w-lg mx-auto">
+        <form className="max-w-lg mx-auto px-2">
           {section === 1 && (
             <>
               <div className="mb-4">
@@ -100,6 +137,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="age"
+                    min="0"
                     value={userInfo.age}
                     onChange={handleChange}
                     className="grow"
@@ -159,6 +197,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="height"
+                    min="0"
                     value={userInfo.height}
                     onChange={handleChange}
                     className="grow"
@@ -172,6 +211,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="weight"
+                    min="0"
                     value={userInfo.weight}
                     onChange={handleChange}
                     className="grow"
@@ -210,6 +250,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="exercise_hours"
+                    min="0"
                     value={userInfo.exercise_hours}
                     onChange={handleChange}
                     className="grow"
@@ -223,6 +264,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="work_hours"
+                    min="0"
                     value={userInfo.work_hours}
                     onChange={handleChange}
                     className="grow"
@@ -238,6 +280,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="cooking_hours"
+                    min="0"
                     value={userInfo.cooking_hours}
                     onChange={handleChange}
                     className="grow"
@@ -380,6 +423,7 @@ const UserInfo = () => {
                   <input
                     type="number"
                     name="budget"
+                    min="0"
                     value={userInfo.budget}
                     onChange={handleChange}
                     className="grow"
@@ -387,7 +431,7 @@ const UserInfo = () => {
                 </label>
               </div>
 
-              <div className="mb-4 flex gap-6">
+              <div className="mb-4 flex gap-4">
                 <IoIosArrowDropleftCircle
                   onClick={() => setSection(section - 1)}
                   className="text-6xl cursor-pointer text-[#41b2de] hover:text-[#009DE4] -mt-1"

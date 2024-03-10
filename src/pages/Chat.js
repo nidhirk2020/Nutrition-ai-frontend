@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -7,6 +7,8 @@ const Chat = () => {
   const [history, setHistory] = useState({});
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+
+  const scrollRef = useRef();
 
   const handleUserQuery = async (userQuery) => {
     const email = user.email;
@@ -43,29 +45,44 @@ const Chat = () => {
       setHistory(response.data.history);
       setChatHistory(newChatHistory);
       setMessage("");
+
+      //scroll to bottom of chat upon new chat history
+      scrollRef.current.scrollIntoView({behavior: 'smooth'});
+
     } catch (error) {
       console.error("Error in handling user query -->", error);
     }
   };
 
   return (
-    <div>
-      <div>
+    <div className="p-5 w-full flex flex-col justify-end items-center gap-2">
+      <div className="w-full overflow-auto invisible-scrollbar relative">
         {chatHistory.map((chat, index) => (
           <div key={index}>
-            <div>{chat.user}</div>
-            <div>{chat.bot}</div>
+            <div className="chat chat-end">
+              <div className="chat-bubble chat-bubble-info">
+                {chat.user}
+              </div>
+            </div>
+            <div className="chat chat-start">
+              <div className="chat-bubble chat-bubble-accent">
+                {chat.bot}
+              </div>
+            </div>
           </div>
         ))}
+        <div ref={scrollRef} className="opacity-0 select-none">Scroll to here(This won't be visible)</div>
       </div>
-      <div>
-        <input
+      <div className="flex gap-2 sm:gap-4">
+        <input 
+          className="input input-bordered text-center"
           type="text"
           placeholder="Ask your question"
           onChange={(e) => setMessage(e.target.value)}
           value={message}
         />
-        <button onClick={() => handleUserQuery(message)}>Send</button>
+        <button className="btn btn-info text-lg font-semibold text-white w-fit"
+         onClick={() => handleUserQuery(message)}>Send</button>
         {/* You can add a "Stop" button if needed */}
       </div>
     </div>

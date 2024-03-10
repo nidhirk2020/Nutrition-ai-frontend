@@ -65,7 +65,7 @@ const MealGenerator = () => {
     );
 
   return (
-    <div className="w-full flex flex-col items-center p-5">
+    <div className="w-full flex flex-col items-center p-5 overflow-auto">
       <button
         className="btn btn-info text-white text-lg font-semibold mb-10 w-fit"
         onClick={generateMeal}
@@ -75,7 +75,7 @@ const MealGenerator = () => {
 
       {generatedMeal && (
         <div>
-          <MealPlan mealDetails={JSON.stringify(generatedMeal, null, 2)} />
+          <MealPlan mealDetails={generatedMeal} />
         </div>
       )}
     </div>

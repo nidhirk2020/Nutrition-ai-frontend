@@ -55,7 +55,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="p-5 w-full flex flex-col justify-end items-center gap-2">
+    <div className="py-5 px-2 w-full flex flex-col justify-end items-center gap-2">
       <div className="w-full overflow-auto invisible-scrollbar relative">
         {chatHistory.map((chat, index) => (
           <div key={index}>
@@ -73,7 +73,7 @@ const Chat = () => {
         ))}
         <div ref={scrollRef} className="opacity-0 select-none">Scroll to here(This won't be visible)</div>
       </div>
-      <div className="flex gap-2 sm:gap-4">
+      <div className="flex gap-2 sm:gap-4 pb-10 sm:pb-0">
         <input 
           className="input input-bordered text-center"
           type="text"

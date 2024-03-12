@@ -10,6 +10,8 @@ const UserInfo = () => {
 
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const { user } = useAuth();
 
   const [section, setSection] = useState(1);
@@ -81,6 +83,7 @@ const UserInfo = () => {
       return;
     }
 
+    setLoading(true);
     try {
       const userDetails = JSON.stringify(userInfo);
       const response = await axios.post(
@@ -114,6 +117,7 @@ const UserInfo = () => {
     } catch (error) {
       console.error("Error occurred while submitting user info:", error);
     }
+    setLoading(false);
   };
   return (
     <div className="container mx-auto pt-8 overflow-auto">
@@ -449,8 +453,9 @@ const UserInfo = () => {
                     type="button"
                     onClick={handleSubmit}
                     className="btn btn-info text-base text-white w-full mb-10"
+                    disabled={loading}
                   >
-                    Submit
+                    {loading ? "Submitting..." : "Submit"}
                   </button>
                 </div>
               </div>

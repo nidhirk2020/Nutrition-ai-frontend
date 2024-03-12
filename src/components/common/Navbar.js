@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo_icon.png"
 
 const Navbar = () => {
 
@@ -16,6 +17,8 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300">
       <div className="navbar-start z-20">
+        <img src={logo} alt="logo" className="hidden sm:block w-12 ml-16"/>
+
         {/* MOBILE NAVBAR */}
         <div ref={navMenu} className='sm:hidden flex flex-1 justify-end items-center relative'>
 

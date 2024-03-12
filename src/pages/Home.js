@@ -83,7 +83,8 @@ const Home = () => {
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
                      className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75 text-white flex items-center justify-center gap-10">
                         <div className="text-4xl sm:text-5xl md:text-7xl font-bold">Get<br/>Started</div>
-                        <FaArrowRight className="text-9xl animate-pulse cursor-pointer" onClick={()=>navigate("/userinfo")}/>
+                        <FaArrowRight className="text-9xl animate-pulse"/>
+                        <div className="absolute inset-0 cursor-pointer" onClick={()=>{navigate("/userinfo")}}></div>
                     </Tilt>
                 </div>
             </div>

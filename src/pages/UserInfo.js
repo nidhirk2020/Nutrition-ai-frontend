@@ -3,8 +3,13 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
+
+  const navigate = useNavigate();
+
   const { user } = useAuth();
 
   const [section, setSection] = useState(1);
@@ -95,6 +100,8 @@ const UserInfo = () => {
 
       if (response.status >= 200 && response.status < 300) {
         console.log("User info successfully submitted to the server!");
+        toast.success("Info successfully submitted!");
+        navigate("/mealgenerator")
       } else {
         const responseBody = response.data;
         console.error(
@@ -120,7 +127,7 @@ const UserInfo = () => {
             <>
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Name</span>
+                  <span className="font-semibold leading-[0.8]">Name</span>
                   <input
                     type="text"
                     name="name"
@@ -133,7 +140,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Age</span>
+                  <span className="font-semibold leading-[0.8]">Age</span>
                   <input
                     type="number"
                     name="age"
@@ -147,7 +154,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Gender</span>
+                  <span className="font-semibold leading-[0.8]">Gender</span>
                   <select
                     name="gender"
                     value={userInfo.gender}
@@ -162,7 +169,7 @@ const UserInfo = () => {
               </div>
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Job Type</span>
+                  <span className="font-semibold leading-[0.8]">Job Type</span>
                   <select
                     name="job_type"
                     value={userInfo.job_type}
@@ -177,7 +184,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Work Type</span>
+                  <span className="font-semibold leading-[0.8]">Work Type</span>
                   <select
                     name="work_type"
                     value={userInfo.work_type}
@@ -193,8 +200,8 @@ const UserInfo = () => {
               </div>
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Height (in feet)</span>
-                  <input
+                  <span className="font-semibold leading-[0.8]">Height (ft.)</span>
+                  <input  
                     type="number"
                     name="height"
                     min="0"
@@ -207,7 +214,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Weight (in lbs)</span>
+                  <span className="font-semibold leading-[0.8]">Weight (lbs)</span>
                   <input
                     type="number"
                     name="weight"
@@ -225,7 +232,7 @@ const UserInfo = () => {
             <>
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Activity Level</span>
+                  <span className="font-semibold leading-[0.8]">Activity Level</span>
                   <select
                     name="activity_level"
                     value={userInfo.activity_level}
@@ -244,8 +251,8 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">
-                    Exercise Hours (per week)
+                  <span className="font-semibold leading-[0.8]">
+                    Exercise Hours (weekly)
                   </span>
                   <input
                     type="number"
@@ -260,7 +267,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Work Hours (per week)</span>
+                  <span className="font-semibold leading-[0.8]">Work Hours (weekly)</span>
                   <input
                     type="number"
                     name="work_hours"
@@ -274,8 +281,8 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">
-                    Cooking Hours (per week)
+                  <span className="font-semibold leading-[0.8]">
+                    Cooking Hours (weekly)
                   </span>
                   <input
                     type="number"
@@ -290,7 +297,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Proficiency in Cooking</span>
+                  <span className="font-semibold leading-[0.8]">Proficiency in Cooking</span>
                   <select
                     name="proficiency_in_cooking"
                     value={userInfo.proficiency_in_cooking}
@@ -306,7 +313,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Goals</span>
+                  <span className="font-semibold leading-[0.8]">Goals</span>
                   <select
                     name="goals"
                     value={userInfo.goals}
@@ -326,7 +333,7 @@ const UserInfo = () => {
             <>
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Dietary Restrictions</span>
+                  <span className="font-semibold leading-[0.8]">Dietary Restrictions</span>
                   <select
                     name="dietary_restrictions"
                     value={userInfo.dietary_restrictions}
@@ -345,7 +352,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Diet Type</span>
+                  <span className="font-semibold leading-[0.8]">Diet Type</span>
                   <select
                     name="diet_type"
                     value={userInfo.diet_type}
@@ -363,7 +370,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Allergies</span>
+                  <span className="font-semibold leading-[0.8]">Allergies</span>
                   <select
                     name="allergies"
                     value={userInfo.allergies}
@@ -383,7 +390,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Cuisine Preference</span>
+                  <span className="font-semibold leading-[0.8]">Cuisine Preference</span>
                   <select
                     name="cuisine_preference"
                     value={userInfo.cuisine_preference}
@@ -403,7 +410,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Grocery Frequency</span>
+                  <span className="font-semibold leading-[0.8]">Grocery Frequency</span>
                   <select
                     name="grocery_frequency"
                     value={userInfo.grocery_frequency}
@@ -419,7 +426,7 @@ const UserInfo = () => {
 
               <div className="mb-4">
                 <label className="input input-bordered flex items-center gap-4">
-                  <span className="font-semibold">Budget (in dollars)</span>
+                  <span className="font-semibold leading-[0.8]">Budget (dollars)</span>
                   <input
                     type="number"
                     name="budget"

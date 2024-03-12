@@ -12,13 +12,13 @@ module.exports = {
       {cupcake: {
         "color-scheme": "light",
         "primary": "#65c3c8",
-        "secondary": "#2A2A2A",
+        "secondary": "#EBEBEB",  //home blocks bg color
         "accent": "#eeaf3a",
         "neutral": "#291334",
         "base-100": "#faf7f5",
         "base-200": "#efeae6",
         "base-300": "#e7e2df",
-        "base-content": "#291334",
+        "base-content": "#161616", //home blocks text color
         "--rounded-btn": "1.9rem",
         "--tab-border": "2px",
         "--tab-radius": "0.7rem",
@@ -33,7 +33,7 @@ module.exports = {
           "base-100": "#1d232a",
           "base-200": "#191e24",
           "base-300": "#15191e",
-          "base-content": "#A6ADBB",
+          "base-content": "#ffffff",
       }},
     ], 
     // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]

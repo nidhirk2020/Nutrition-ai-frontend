@@ -17,7 +17,7 @@ const Home = () => {
                   <div className='absolute bottom-20 right-32 h-[340px] w-[400px] rounded-full blur-[130px] bg-info'></div>
                   <div className='absolute top-20 left-32 h-[240px] w-[300px] rounded-full blur-[130px] bg-error'></div>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 rounded-xl bg-secondary bg-opacity-75">
+                     className="col-span-full lg:col-span-2 overflow-hidden flex relative p-8 rounded-xl bg-secondary bg-opacity-70">
                         <div className="size-fit m-auto relative">
                             <div className="relative h-24 w-56 flex items-center">
                                 <svg className="absolute inset-0 size-full text-green-600" viewBox="0 0 254 104" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,24 +25,24 @@ const Home = () => {
                                 </svg>
                                 <span className="w-fit block mx-auto text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-pink-400">100%</span>
                             </div>
-                            <h2 className="mt-6 text-center font-semibold text-white text-4xl">Customizable</h2>
-                            <h2 className="text-center font-semibold text-white text-4xl">Meal Plans</h2>
+                            <h2 className="mt-6 text-center font-bold text-base-content text-4xl">Customizable</h2>
+                            <h2 className="text-center font-bold text-base-content text-4xl">Meal Plans</h2>
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75">
+                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-70">
                         <div>
                             <div className="relative aspect-square rounded-full size-32 flex items-center justify-center border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
                               <FaHeartPulse className="text-8xl text-red-600 mt-2 ml-1"/>
                             </div>
                             <div className="mt-6 text-center relative z-10 space-y-2">
-                                <h2 className="text-3xl font-medium text-white">Invest In Your Health</h2>
-                                <p className="text-gray-300">Our customizable meal plans and grocery lists make it easy for you to stick to a deliciously healthy life even during the busiest of weeks.</p>
+                                <h2 className="text-3xl font-medium text-base-content">Invest In Your Health</h2>
+                                <p className="text-base-content">Our customizable meal plans and grocery lists make it easy for you to stick to a deliciously healthy life even during the busiest of weeks.</p>
                             </div>
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75">
+                     className="col-span-full sm:col-span-3 lg:col-span-2 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-70">
                         <div>
                             <div className="pt-0 lg:px-6">
                             <svg className="w-full" viewBox="0 0 386 123" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,18 +61,18 @@ const Home = () => {
                                 </svg>
                             </div>
                             <div className="mt-6 text-center relative z-10 space-y-6">
-                                <h2 className="text-3xl font-medium text-white">Maintain Healthy Weight</h2>
-                                <p className="text-gray-300">It’s time to put away the calculator. Whether you want to maintain or even lose weight, Meal Mentor is the only weight management meal planner.</p>
+                                <h2 className="text-3xl font-medium text-base-content">Maintain Healthy Weight</h2>
+                                <p className="text-base-content">It’s time to put away the calculator. Whether you want to maintain or even lose weight, Meal Mentor is the only weight management meal planner.</p>
                             </div>
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1} 
-                    className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75">
+                    className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-70">
                         <div className="flex flex-wrap justify-center items-center gap-6">
                             <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
                                 <div className="space-y-2">
-                                    <h2 className="text-3xl font-medium text-center text-white">Take Back Your Time</h2>
-                                    <p className="text-gray-300 max-w-64 text-center">Skip the cookbook and Pinterest hunt. With MealMentor, you can transform your daily meals with quick, exciting, and nutritious dishes in just 20 minutes or less.</p>
+                                    <h2 className="text-3xl font-medium text-center text-base-content">Take Back Your Time</h2>
+                                    <p className="text-base-content max-w-64 text-center">Skip the cookbook and Pinterest hunt. With MealMentor, you can transform your daily meals with quick, exciting, and nutritious dishes in just 20 minutes or less.</p>
                                 </div>
                             </div>
                             <div className="relative aspect-square rounded-full size-32 flex items-center justify-center border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">
@@ -81,7 +81,7 @@ const Home = () => {
                         </div>
                     </Tilt>
                     <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} scale={1}
-                     className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-75 text-white flex items-center justify-center gap-10">
+                     className="col-span-full lg:col-span-3 overflow-hidden relative p-8 rounded-xl bg-secondary bg-opacity-70 text-base-content flex items-center justify-center gap-10">
                         <div className="text-4xl sm:text-5xl md:text-7xl font-bold">Get<br/>Started</div>
                         <FaArrowRight className="text-9xl animate-pulse"/>
                         <div className="absolute inset-0 cursor-pointer" onClick={()=>{navigate("/userinfo")}}></div>

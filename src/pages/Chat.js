@@ -76,7 +76,7 @@ const Chat = () => {
           </div>
         ))}
       </div>
-      <div className="flex gap-2 sm:gap-4 pb-10 sm:pb-0">
+      <div className="flex gap-2 sm:gap-4">
         <input 
           className="input input-bordered text-center"
           type="text"

@@ -59,7 +59,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="py-5 px-2 w-full flex flex-col justify-end items-center gap-2 max-h-[93%] sm:max-h-[100%]">
+    <div className="pt-2 pb-5 px-2 w-full flex flex-col justify-end items-center gap-2 max-h-[93%] sm:max-h-[100%]">
       <div className="w-full overflow-auto invisible-scrollbar relative" ref={scrollRef}>
         {chatHistory.map((chat, index) => (
           <div key={index}>
@@ -78,7 +78,7 @@ const Chat = () => {
       </div>
       <div className="flex gap-2 sm:gap-4">
         <input 
-          className="input input-bordered text-center"
+          className="input input-bordered text-center sm:w-[20rem] md:w-[30rem] lg:w-[35rem]"
           type="text"
           placeholder="Ask your question"
           onChange={(e) => setMessage(e.target.value)}

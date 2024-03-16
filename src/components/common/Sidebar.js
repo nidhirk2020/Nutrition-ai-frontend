@@ -1,38 +1,49 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { AiFillHome } from "react-icons/ai";
+import { FaUserEdit } from "react-icons/fa";
+import { GiBowlOfRice } from "react-icons/gi";
+import { MdLocalGroceryStore } from "react-icons/md";
+import { IoChatbubbles } from "react-icons/io5";
+
 const Sidebar = () => {
   return (
     <div className="min-w-[13rem] pt-2 h-[100%] flex flex-col gap-1 border-r border-base-300">
       <Link
         to="/home"
-        className="text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
+        className="flex items-center justify-between text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
       >
-        Home
+        <div>Home</div>
+        <div><AiFillHome className="text-2xl"/></div>
       </Link>
       <Link
         to="/userinfo"
-        className="text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
+        className="flex items-center justify-between text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
       >
-        User Information
+        <div>User Information</div>
+        <div><FaUserEdit className="text-2xl"/></div>
       </Link>
       <Link
         to="/mealgenerator"
-        className="text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
+        className="flex items-center justify-between text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
       >
-        Generate Meal
+        <div>Meal Plan</div>
+        <div><GiBowlOfRice className="text-2xl"/></div>
       </Link>
       <Link
         to="/grocerygenerator"
-        className="text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
+        className="flex items-center justify-between text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
       >
-        Generate Grocery List
+        <div>Grocery List</div>
+        <div><MdLocalGroceryStore className="text-2xl"/></div>
       </Link>
       <Link
         to="/chat"
-        className="text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
+        className="flex items-center justify-between text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
       >
-        Chat
+        <div>Chat</div>
+        <div><IoChatbubbles className="text-2xl"/></div>
       </Link>
     </div>
   );

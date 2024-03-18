@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { supabase } from "../supabase";
 
 const AuthContext = createContext();
 
@@ -15,8 +16,13 @@ function AuthProvider({ children }) {
   };
 
   // Add a function to sign out
-  const signOut = () => {
-    setUser(null);
+  const signOut = async () => {
+    try {
+      await supabase.auth.signOut(); // Sign out the user using Supabase's signOut method
+      setUser(null);
+    } catch (error) {
+      console.error("Error signing out:", error.message);
+    }
   };
 
   return (

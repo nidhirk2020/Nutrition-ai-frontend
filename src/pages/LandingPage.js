@@ -15,7 +15,7 @@ export default function Landing() {
       provider: "google",
       options: {
         redirectTo: `${process.env.REACT_APP_BASE_URL}/home`,
-        skipBrowserRedirect: false,
+        // skipBrowserRedirect: false,
       },
     });
   };

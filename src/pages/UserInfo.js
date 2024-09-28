@@ -7,7 +7,6 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-const backendUrl = process.env.BASE_BACKEND_URL;
 const UserInfo = () => {
   const navigate = useNavigate();
 

@@ -16,7 +16,7 @@ const Calories = () => {
   const [dailyCalorieGoal, setDailyCalorieGoal] = useState(2000); // Default goal
   const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState(0); // Set default to 0
   const { user } = useAuth(); // Get user from context
-  const email = user.email; // Get user's email
+const email = user.email; // Get email from user
   const [loading, setLoading] = useState(false); // Loading state for the spinner
 
   // Function to get today's date in YYYY-MM-DD format
@@ -282,7 +282,7 @@ const Calories = () => {
         )}
 
         {/* Button to add a meal */}
-        {!loading && (
+        {!loading && calories && dishName && (
             <button
                 onClick={handleAddMeal}
                 className="px-4 py-2 bg-green-500 text-white rounded-md shadow-md hover:bg-green-600 transition duration-300 mb-8"
@@ -291,85 +291,92 @@ const Calories = () => {
             </button>
         )}
 
-        {/* Table to show daily meals */}
+        {/* Group Table and Calorie Spike Graph in one row */}
         {meals.length > 0 && (
-            <div className="w-full max-w-lg mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Daily Meal Summary</h2>
-              <table className="table-auto w-full text-left bg-white shadow-md rounded-md">
-                <thead>
-                <tr>
-                  <th className="px-4 py-2 border-b font-semibold text-gray-800">Meal</th>
-                  <th className="px-4 py-2 border-b font-semibold text-gray-800">Calories</th>
-                </tr>
-                </thead>
-                <tbody>
-                {meals.map((meal, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-2 border-b text-gray-700">{meal.name}</td>
-                      <td className="px-4 py-2 border-b text-gray-700">{meal.calories} kcal</td>
+            <div className="w-full flex flex-wrap mb-8">
+              <div className="w-full md:w-1/2 p-2">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Daily Meal Summary</h2>
+                <div className="bg-white shadow-md rounded-md p-4 h-[300px] overflow-y-auto">
+                  <table className="table-auto w-full text-left">
+                    <thead>
+                    <tr>
+                      <th className="px-4 py-2 border-b font-semibold text-gray-800">Meal</th>
+                      <th className="px-4 py-2 border-b font-semibold text-gray-800">Calories</th>
                     </tr>
-                ))}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                    {[...meals].reverse().map((meal, index) => (
+                        <tr key={index}>
+                          <td className="px-4 py-2 border-b text-gray-700">{meal.name}</td>
+                          <td className="px-4 py-2 border-b text-gray-700">{meal.calories} kcal</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="w-full md:w-1/2 p-2">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Calorie Spike Graph</h2>
+                <div className="bg-white shadow-md rounded-md p-4 h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={lineData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="calories" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
             </div>
         )}
 
-        {/* Calorie Spike Graph */}
-        {meals.length > 0 && (
-            <div className="w-full max-w-lg mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Calorie Spike Graph</h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={lineData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
+        {/* Group Weekly Analysis and Pie Chart in one row */}
+        <div className="w-full flex flex-wrap mb-8">
+          {weeklyData.length > 0 && (
+              <div className="w-full md:w-1/2 p-2">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Weekly Calorie Intake</h2>
+                <div className="bg-white shadow-md rounded-md p-4 h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={weeklyData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="total_calories" fill="#82ca9d" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+          )}
+          <div className="w-full md:w-1/2 p-2">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Daily Calorie Breakdown</h2>
+            <div className="bg-white shadow-md rounded-md p-4 h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={100}
+                      fill="#8884d8"
+                      dataKey="value"
+                  >
+                    {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#82ca9d' : '#ff6384'} />
+                    ))}
+                  </Pie>
                   <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="calories" stroke="#8884d8" activeDot={{ r: 8 }} />
-                </LineChart>
+                </PieChart>
               </ResponsiveContainer>
             </div>
-        )}
-
-        {/* Weekly Calorie Bar Graph */}
-        {weeklyData.length > 0 && (
-            <div className="w-full max-w-lg mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Weekly Calorie Intake</h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={weeklyData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="total_calories" fill="#82ca9d" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-        )}
-
-        {/* Pie Chart for Daily Calories */}
-        <div className="w-full max-w-lg mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Daily Calorie Breakdown</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index === 0 ? '#82ca9d' : '#ff6384'} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          </div>
         </div>
       </div>
   );

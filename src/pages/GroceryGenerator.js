@@ -25,7 +25,7 @@ const GroceryGenerator = () => {
     try {
       // First API call to generate grocery
       const generateResponse = await axios.post(
-        "https://nutrition-ai.onrender.com/chat_ai/grocery_list_generator",
+        "https://nutrition-ai-backend.onrender.com/grocery/generate_grocery_list",
         {},
         {
           headers: {
@@ -40,7 +40,7 @@ const GroceryGenerator = () => {
 
       // Second API call to show grocery list
       const showResponse = await axios.post(
-        "https://nutrition-ai.onrender.com/chat_ai/show_grocery_list",
+        "https://nutrition-ai-backend.onrender.com/grocery/show_grocery_list",
         {},
         {
           headers: {

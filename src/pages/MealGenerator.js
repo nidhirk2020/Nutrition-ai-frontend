@@ -24,18 +24,19 @@ const MealGenerator = () => {
     localStorage.removeItem("generatedMeal");
 
     try {
-      const response = await axios.post(
-        "https://nutrition-ai.onrender.com/chat_ai/meal_generator",
-        {},
-        {
-          headers: {
-            accept: "application/json",
-          },
-          params: {
-            email_id: email,
-          },
-        }
-      );
+          const response = await axios.get(
+      `https://nutrition-ai-backend.onrender.com/meal/generate_meal/${email}`,
+      {
+        headers: {
+          accept: "application/json",
+        },
+        params: {
+          email_id: email,
+        },
+      }
+    );
+
+    
       showMeal();
     } catch (error) {
       console.error("Error generating meal:", error);
@@ -45,18 +46,18 @@ const MealGenerator = () => {
 
   const showMeal = async () => {
     try {
-      const response = await axios.post(
-        "https://nutrition-ai.onrender.com/chat_ai/show_meal",
-        {},
-        {
-          headers: {
-            accept: "application/json",
-          },
-          params: {
-            email_id: user.email,
-          },
-        }
-      );
+      const response = await axios.get(
+    `https://nutrition-ai-backend.onrender.com/meal/show_meal/${user.email}`,
+    {
+      headers: {
+        accept: "application/json",
+      },
+      params: {
+        email_id: user.email,
+      },
+    }
+  );
+    
 
       const mealData = response.data;
       setGeneratedMeal(mealData);

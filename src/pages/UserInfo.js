@@ -7,9 +7,8 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+const backendUrl = process.env.BASE_BACKEND_URL;
 const UserInfo = () => {
-
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -38,6 +37,7 @@ const UserInfo = () => {
     cuisine_preference: "",
     budget: 0,
     grocery_frequency: "",
+    calorie_goal:0,
   });
 
   const handleChange = (e) => {
@@ -79,6 +79,11 @@ const UserInfo = () => {
       setUserInfo((prevInfo) => ({ ...prevInfo, cooking_hours:0}))
       return;
     }
+    if(userInfo.calorie_goal < 0){
+      alert("Daily Calorie Intake can not be negative");
+      setUserInfo((prevInfo) => ({ ...prevInfo, calorie_goal:0}))
+      return;
+    }
     if(userInfo.budget < 0){
       alert("Budget can not be negative");
       setUserInfo((prevInfo) => ({ ...prevInfo, budget:0}))
@@ -88,8 +93,10 @@ const UserInfo = () => {
     setLoading(true);
     try {
       const userDetails = JSON.stringify(userInfo);
+      console.log("user details are",userDetails);
       const response = await axios.post(
-        "https://nutrition-ai.onrender.com/mongo_db/write_user_info_to_mongo",
+        // `${backendUrl}/mongo/write_user_info_to_mongo`,
+        "https://nutrition-ai-backend.onrender.com/mongo/write_user_info_to_mongo",
         // qs.stringify({ data: userInfo }), // Convert data to x-www-form-urlencoded format
         { data: userDetails },
         {
@@ -427,6 +434,22 @@ const UserInfo = () => {
                     <option value="bi-weekly">Bi-Weekly</option>
                     <option value="monthly">Monthly</option>
                   </select>
+                </label>
+              </div>
+
+                <div className="mb-4">
+                <label className="input input-bordered flex items-center gap-4">
+                  <span className="font-semibold leading-[0.8]">
+                   Daily Calorie Intake value
+                  </span>
+                  <input
+                    type="number"
+                    name="calorie_goal"
+                    min="0"
+                    value={userInfo.calorie_goal}
+                    onChange={handleChange}
+                    className="grow"
+                  />
                 </label>
               </div>
 

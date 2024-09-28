@@ -18,6 +18,10 @@ const Chat = () => {
   }, [chatHistory]);
 
   const handleUserQuery = async (userQuery) => {
+    if (!message.trim()) {
+      return;
+    }
+
     const email = user.email;
     try {
       let newChatHistory = [...chatHistory];
@@ -43,20 +47,26 @@ const Chat = () => {
 
       // Make a POST request to your chatbot service
       const response = await axios.post(
-        "https://nutrition-ai.onrender.com/chat_ai/chat",
+      "https://nutrition-ai-backend.onrender.com/health/chat",
+
         requestBody,
         config
       );
 
-      newChatHistory[newChatHistory.length - 1].bot = response.data.response;
-      setHistory(response.data.history);
+      console.log(response.data); // Check the response structure
+
+      // Assuming response.data has 'response' and 'history' fields
+      newChatHistory[newChatHistory.length - 1].bot = response.data.response || "No response from AI";
+      setHistory(response.data.history || {});
       setChatHistory(newChatHistory);
       setMessage("");
 
     } catch (error) {
-      console.error("Error in handling user query -->", error);
+      console.error("Error in handling user query -->", error.response?.data || error.message);
+      // Optionally update UI with error
     }
   };
+
 
   return (
     <div className="pt-2 pb-5 px-2 w-full flex flex-col justify-end items-center gap-2 max-h-[93%] sm:max-h-[100%]">

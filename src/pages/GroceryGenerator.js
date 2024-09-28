@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -7,10 +7,22 @@ const GroceryGenerator = () => {
   const [groceryList, setGroceryList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Load stored grocery list on component mount
+  useEffect(() => {
+    const storedGroceryList = localStorage.getItem("groceryList");
+    if (storedGroceryList) {
+      setGroceryList(JSON.parse(storedGroceryList));
+    }
+  }, []);
+
   const generateGroceryList = async () => {
     const email = user.email;
+    setLoading(true);
+
+    // Clear previously stored grocery list
+    localStorage.removeItem("groceryList");
+
     try {
-      setLoading(true);
       // First API call to generate grocery
       const generateResponse = await axios.post(
         "https://nutrition-ai.onrender.com/chat_ai/grocery_list_generator",
@@ -25,9 +37,6 @@ const GroceryGenerator = () => {
           },
         }
       );
-
-      // Assuming the response contains the generated grocery list
-      const generateData = generateResponse.data;
 
       // Second API call to show grocery list
       const showResponse = await axios.post(
@@ -51,13 +60,13 @@ const GroceryGenerator = () => {
       const parsedGroceryList = showData.grocery_list
         .split(",")
         .map((item) => item.trim());
-      
-      // commaSeparatedList = parsedGroceryList.join(', ');
 
       // Check if parsedGroceryList is iterable (an array)
       if (Array.isArray(parsedGroceryList)) {
         // Update the state with the parsed grocery list
         setGroceryList(parsedGroceryList);
+        // Store the grocery list in localStorage
+        localStorage.setItem("groceryList", JSON.stringify(parsedGroceryList));
       } else {
         console.error(
           "Invalid data format for parsedGroceryList:",
@@ -89,17 +98,24 @@ const GroceryGenerator = () => {
 
       {/* Display the generated grocery list horizontally */}
       <div style={{ whiteSpace: "pre-wrap" }}>
-      <ol className="pl-5">
-        {groceryList.map((item, index) => (
-          <li key={index} className="mb-[10px] flex items-center gap-1">
-            <input type="checkbox" id={`item-${index}`} className="checkbox checkbox-info"/>
-            <label htmlFor={`item-${index}`} className="ml-[10px] capitalize">{item}</label>
-          </li>
-        ))}
-      </ol>
+        <ol className="pl-5">
+          {groceryList.map((item, index) => (
+            <li key={index} className="mb-[10px] flex items-center gap-1">
+              <input
+                type="checkbox"
+                id={`item-${index}`}
+                className="checkbox checkbox-info"
+              />
+              <label htmlFor={`item-${index}`} className="ml-[10px] capitalize">
+                {item}
+              </label>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );
 };
 
 export default GroceryGenerator;
+

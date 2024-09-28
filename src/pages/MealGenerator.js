@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MealPlan from "../components/core/MealPlan";
 import { useAuth } from "../context/AuthContext";
@@ -8,9 +8,21 @@ const MealGenerator = () => {
   const [generatedMeal, setGeneratedMeal] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Load stored meal data on component mount
+  useEffect(() => {
+    const storedMeal = localStorage.getItem("generatedMeal");
+    if (storedMeal) {
+      setGeneratedMeal(JSON.parse(storedMeal));
+    }
+  }, []);
+
   const generateMeal = async () => {
     const email = user.email;
     setLoading(true);
+
+    // Clear previously stored meal
+    localStorage.removeItem("generatedMeal");
+
     try {
       const response = await axios.post(
         "https://nutrition-ai.onrender.com/chat_ai/meal_generator",
@@ -24,8 +36,6 @@ const MealGenerator = () => {
           },
         }
       );
-      console.log(response);
-      // After generating meal, show it
       showMeal();
     } catch (error) {
       console.error("Error generating meal:", error);
@@ -48,10 +58,10 @@ const MealGenerator = () => {
         }
       );
 
-      // Log or update state with the meal details as needed
-      // Update state with generated meal
-      setGeneratedMeal(response.data);
-      console.log("Meal details:", response.data);
+      const mealData = response.data;
+      setGeneratedMeal(mealData);
+      localStorage.setItem("generatedMeal", JSON.stringify(mealData)); // Store meal data in localStorage
+      console.log("Meal details:", mealData);
     } catch (error) {
       console.error("Error showing meal:", error);
     }

@@ -46,7 +46,7 @@ const Navbar = () => {
                 <Link to="/grocerygenerator" onClick={()=>setToggle(false)}>Grocery Generator</Link>
               </li>
               <li className="hover:text-gray-500 text-[18px] font-medium cursor-pointer">
-                <Link to="/chat" onClick={()=>setToggle(false)}>Chat</Link>
+                <Link to="/chat" onClick={()=>setToggle(false)}>calorie counter</Link>
               </li>
             </ul>
           </div>

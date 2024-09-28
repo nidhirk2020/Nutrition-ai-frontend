@@ -7,6 +7,7 @@ import { FaUserEdit, FaUser } from "react-icons/fa";
 import { GiBowlOfRice } from "react-icons/gi";
 import { MdLocalGroceryStore } from "react-icons/md";
 import { IoChatbubbles } from "react-icons/io5";
+import { MdFastfood } from "react-icons/md";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -51,12 +52,12 @@ const Sidebar = () => {
         </div>
       </Link>
       <Link
-        to="/chat"
+        to="/calorie"
         className="flex items-center justify-between text-lg py-[0.5rem] px-[0.7rem] hover:bg-base-200 transition-all duration-100 cursor-pointer"
       >
-        <div>Chat</div>
+        <div>Calorie Counter</div>
         <div>
-          <IoChatbubbles className="text-2xl" />
+          <MdFastfood className="text-2xl" />
         </div>
       </Link>
       <div

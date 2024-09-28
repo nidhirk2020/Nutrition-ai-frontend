@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+  import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
@@ -24,13 +24,11 @@ const GroceryGenerator = () => {
 
     try {
       // First API call to generate grocery
-      const generateResponse = await axios.post(
-        "https://nutrition-ai-backend.onrender.com/grocery/generate_grocery_list",
-        {},
+      const generateResponse = await axios.get(
+        `https://nutrition-ai-backend.onrender.com/grocery/generate_grocery_list/${email}`,
         {
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
           },
           params: {
             email_id: email,
@@ -39,13 +37,11 @@ const GroceryGenerator = () => {
       );
 
       // Second API call to show grocery list
-      const showResponse = await axios.post(
-        "https://nutrition-ai-backend.onrender.com/grocery/show_grocery_list",
-        {},
+      const showResponse = await axios.get(
+        `https://nutrition-ai-backend.onrender.com/grocery/show_grocery_list/${email}`,
         {
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/json",
           },
           params: {
             email_id: email,

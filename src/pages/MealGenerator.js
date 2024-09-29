@@ -61,9 +61,21 @@ const MealGenerator = () => {
 
             const mealData = response.data;
 
-            // Since the API response is an array of days, we can set it directly
-            setGeneratedMeal(mealData);
-            localStorage.setItem("generatedMeal", JSON.stringify(mealData)); // Store meal data in localStorage
+            // Log the meal data to verify the structure
+            console.log("Fetched meal data:", mealData);
+
+            // Ensure the mealData is structured as expected
+            if (Array.isArray(mealData)) {
+                const mealDataObject = mealData.reduce((acc, curr, index) => {
+                    // Convert the array into an object if necessary
+                    acc[`day${index + 1}`] = curr;
+                    return acc;
+                }, {});
+                setGeneratedMeal(mealDataObject);
+                localStorage.setItem("generatedMeal", JSON.stringify(mealDataObject));
+            } else {
+                console.error("Unexpected meal data structure:", mealData);
+            }
         } catch (error) {
             console.error("Error showing meal:", error);
         }

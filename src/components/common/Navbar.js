@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300">
       <div className="navbar-start z-20">
-        <Link to="/home" className="hidden sm:block"><img src={logo} alt="logo" className="w-32 ml-16 h-32"/></Link>
+        <Link to="/home" className="hidden sm:block"><img src={logo} alt="logo" className="w-28 ml-16 h-28"/></Link>
 
         {/* MOBILE NAVBAR */}
         <div ref={navMenu} className='sm:hidden flex flex-1 justify-end items-center relative'>

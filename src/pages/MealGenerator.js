@@ -64,11 +64,11 @@ const MealGenerator = () => {
             // Log the meal data to verify the structure
             console.log("Fetched meal data:", mealData);
 
-            // Ensure the mealData is structured as expected
+            // Convert the meal array to an object keyed by day (if it is an array)
             if (Array.isArray(mealData)) {
-                const mealDataObject = mealData.reduce((acc, curr, index) => {
-                    // Convert the array into an object if necessary
-                    acc[`day${index + 1}`] = curr;
+                const mealDataObject = mealData.reduce((acc, curr) => {
+                    const dayKey = Object.keys(curr)[0]; // Extract day key (e.g., 'day1')
+                    acc[dayKey] = curr[dayKey]; // Assign meals to the respective day
                     return acc;
                 }, {});
                 setGeneratedMeal(mealDataObject);
@@ -80,6 +80,7 @@ const MealGenerator = () => {
             console.error("Error showing meal:", error);
         }
     };
+
 
     if (loading)
         return (

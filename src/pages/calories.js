@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useAuth } from "../context/AuthContext";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Swal from 'sweetalert2';
 
 const Calories = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -137,6 +138,8 @@ const Calories = () => {
     setTotalCaloriesConsumed(newTotalCalories);
   }, [meals]);
 
+
+
   const handleAddMeal = async () => {
     if (selectedFile && calories && dishName) {
       const params = new URLSearchParams(); // Create URLSearchParams object for form data
@@ -155,18 +158,34 @@ const Calories = () => {
 
         const result = response.data;
         if (response.status === 200 || result.success) {
-          alert(`Meal added: ${dishName} with ${calories} calories.`);
+          Swal.fire({
+            icon: 'success',
+            title: 'Meal Added',
+            text: `Meal added: ${dishName} with ${calories} calories.`,
+            confirmButtonText: 'OK'
+          });
 
           // Fetch the latest meals and weekly data
           fetchTodayMeals();
           fetchWeeklyCalorieData();
 
         } else {
-          alert('Failed to add meal to the database.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Failed to add meal to the database.',
+            confirmButtonText: 'Try Again'
+          });
         }
       } catch (error) {
         // Log detailed error response
         console.error('Error adding meal to the database:', error.response ? error.response.data : error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error adding meal to the database. Please check the console for details.',
+          confirmButtonText: 'OK'
+        });
       }
 
       // Reset for new meal upload
@@ -174,7 +193,12 @@ const Calories = () => {
       setCalories(null);
       setDishName('');
     } else {
-      alert('Please upload a meal image first!');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Image',
+        text: 'Please upload a meal image first!',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -202,16 +226,27 @@ const Calories = () => {
           setCalories(calorie_value);
           setDishName(name);
         } else {
-          alert('Failed to fetch the calorie information. Try again!');
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed to Fetch',
+            text: 'Failed to fetch the calorie information. Try again!',
+            confirmButtonText: 'OK'
+          });
         }
       } catch (error) {
         console.error('Error fetching calorie information:', error);
-        alert('Error fetching calorie information. Check the console for details.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error fetching calorie information. Check the console for details.',
+          confirmButtonText: 'OK'
+        });
       } finally {
         setLoading(false); // Stop loading spinner
       }
     }
   };
+
 
   // Prepare data for the calorie spike graph
   const lineData = meals.map((meal, index) => ({
@@ -228,12 +263,12 @@ const Calories = () => {
     { name: 'Calories Left', value: caloriesLeft < 0 ? 0 : caloriesLeft }, // Prevent negative calories left
   ];
 
-   if (loading)
-        return (
-            <div className="w-full flex justify-center">
-                <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
-            </div>
-        );
+  if (loading)
+    return (
+        <div className="w-full flex justify-center">
+          <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
+        </div>
+    );
 
   return (
       <div className="w-full flex flex-col items-center p-5 overflow-auto">

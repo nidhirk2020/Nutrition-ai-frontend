@@ -13,23 +13,21 @@ import Swal from 'sweetalert2';
 const Calories = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [calories, setCalories] = useState(null);
-  const [meals, setMeals] = useState([]); // Meals will be populated from API and new additions
-  const [weeklyData, setWeeklyData] = useState([]); // Set weekly data initially as an empty array
+  const [meals, setMeals] = useState([]);
+  const [weeklyData, setWeeklyData] = useState([]);
   const [dishName, setDishName] = useState('');
-  const [dailyCalorieGoal, setDailyCalorieGoal] = useState(2000); // Default goal
-  const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState(0); // Set default to 0
-  const { user } = useAuth(); // Get user from context
-  const email = user.email; // Get user's email
-  const [loading, setLoading] = useState(false); // Loading state for the spinner
-  const [recommendation, setRecommendation] = useState(''); // State for health recommendation
+  const [dailyCalorieGoal, setDailyCalorieGoal] = useState(2000);
+  const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState(0);
+  const { user } = useAuth();
+  const email = user.email;
+  const [loading, setLoading] = useState(true); // Change to true to show loading initially
+  const [recommendation, setRecommendation] = useState('');
 
-  // Function to get today's date in YYYY-MM-DD format
   const getCurrentDate = () => {
     const today = new Date();
-    return today.toISOString().split('T')[0]; // Returns 'YYYY-MM-DD'
+    return today.toISOString().split('T')[0];
   };
 
-  // Fetch daily calorie goal from the API
   const fetchCalorieGoal = async () => {
     try {
       const response = await fetch(`https://nutrition-ai-backend.onrender.com/mongo/read_user_info_from_mongo/${email}?email_id=${email}`, {
@@ -44,7 +42,7 @@ const Calories = () => {
       if (response.ok && data.data) {
         const userData = JSON.parse(data.data.data);
         const dailyCalorieGoal = parseInt(userData.calorie_goal, 10);
-        setDailyCalorieGoal(dailyCalorieGoal); // Set the state
+        setDailyCalorieGoal(dailyCalorieGoal);
       } else {
         console.error('Failed to fetch calorie goal.');
       }
@@ -53,9 +51,8 @@ const Calories = () => {
     }
   };
 
-  // Fetch today's meals
   const fetchTodayMeals = async () => {
-    const today = getCurrentDate(); // Get today's date
+    const today = getCurrentDate();
     try {
       const response = await fetch(`https://nutrition-ai-backend.onrender.com/calorie/get_individual_calorie_by_date/${email}/${today}`, {
         method: 'GET',
@@ -71,7 +68,7 @@ const Calories = () => {
           name: item.food_item,
           calories: item.calorie,
         }));
-        setMeals(fetchedMeals); // Set the fetched meals in state
+        setMeals(fetchedMeals);
       } else {
         console.error('Failed to fetch today’s meals.');
       }
@@ -80,7 +77,6 @@ const Calories = () => {
     }
   };
 
-  // Fetch weekly calorie data from the API
   const fetchWeeklyCalorieData = async () => {
     try {
       const response = await fetch(`https://nutrition-ai-backend.onrender.com/calorie/get_weekly_calorie/${email}`, {
@@ -93,7 +89,7 @@ const Calories = () => {
       const data = await response.json();
 
       if (response.ok && data.daily_calorie_data) {
-        setWeeklyData(data.daily_calorie_data); // Set weekly data in the state
+        setWeeklyData(data.daily_calorie_data);
       } else {
         console.error('Failed to fetch weekly calorie data.');
       }
@@ -102,7 +98,6 @@ const Calories = () => {
     }
   };
 
-  // Fetch health recommendation from the API
   const fetchRecommendation = async () => {
     try {
       const response = await fetch(`https://nutrition-ai-backend.onrender.com/recommend/generate_recommendation/${email}?email_id=${encodeURIComponent(email)}`, {
@@ -124,30 +119,29 @@ const Calories = () => {
     }
   };
 
-  // Fetch data when the component mounts
   useEffect(() => {
-    fetchCalorieGoal();
-    fetchTodayMeals();
-    fetchWeeklyCalorieData();
-    fetchRecommendation(); // Fetch the health recommendation
-  }, [email]); // Re-run when the email changes
+    const fetchData = async () => {
+      await fetchCalorieGoal();
+      await fetchTodayMeals();
+      await fetchWeeklyCalorieData();
+      await fetchRecommendation();
+      setLoading(false); // Set loading to false after all data is fetched
+    };
+    fetchData();
+  }, [email]);
 
-  // Update total calories consumed whenever meals change
   useEffect(() => {
     const newTotalCalories = meals.reduce((total, meal) => total + meal.calories, 0);
     setTotalCaloriesConsumed(newTotalCalories);
   }, [meals]);
 
-
-
   const handleAddMeal = async () => {
     if (selectedFile && calories && dishName) {
-      const params = new URLSearchParams(); // Create URLSearchParams object for form data
+      const params = new URLSearchParams();
       params.append('calorie', calories);
       params.append('food_item', dishName);
 
       try {
-        // Save the meal to the database using the API
         const response = await axios.post('https://nutrition-ai-backend.onrender.com/calorie/write_calorie_to_mongo', params, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -165,10 +159,8 @@ const Calories = () => {
             confirmButtonText: 'OK'
           });
 
-          // Fetch the latest meals and weekly data
           fetchTodayMeals();
           fetchWeeklyCalorieData();
-
         } else {
           Swal.fire({
             icon: 'error',
@@ -178,7 +170,6 @@ const Calories = () => {
           });
         }
       } catch (error) {
-        // Log detailed error response
         console.error('Error adding meal to the database:', error.response ? error.response.data : error.message);
         Swal.fire({
           icon: 'error',
@@ -188,7 +179,6 @@ const Calories = () => {
         });
       }
 
-      // Reset for new meal upload
       setSelectedFile(null);
       setCalories(null);
       setDishName('');
@@ -202,7 +192,6 @@ const Calories = () => {
     }
   };
 
-  // Handle meal image upload and calorie data extraction
   const handleFileSelection = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -210,7 +199,7 @@ const Calories = () => {
       const formData = new FormData();
       formData.append('image_file', file);
 
-      setLoading(true); // Start loading spinner
+      setLoading(true);
 
       try {
         const response = await axios.post('https://nutrition-ai-backend.onrender.com/ai_image/get_calorie_value', formData, {
@@ -242,39 +231,35 @@ const Calories = () => {
           confirmButtonText: 'OK'
         });
       } finally {
-        setLoading(false); // Stop loading spinner
+        setLoading(false);
       }
     }
   };
 
-
-  // Prepare data for the calorie spike graph
   const lineData = meals.map((meal, index) => ({
     name: `Meal ${index + 1}`,
     calories: meal.calories,
   }));
 
-  // Calculate calories left for the pie chart
   const caloriesLeft = dailyCalorieGoal - totalCaloriesConsumed;
 
-  // Data for the pie chart
   const pieData = [
     { name: 'Calories Consumed', value: totalCaloriesConsumed },
-    { name: 'Calories Left', value: caloriesLeft < 0 ? 0 : caloriesLeft }, // Prevent negative calories left
+    { name: 'Calories Left', value: caloriesLeft < 0 ? 0 : caloriesLeft },
   ];
 
-  if (loading)
+  if (loading) {
     return (
         <div className="w-full flex justify-center">
           <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
         </div>
     );
+  }
 
   return (
       <div className="w-full flex flex-col items-center p-5 overflow-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-10">Count Your Daily Calories</h1>
 
-        {/* Upload section */}
         <div className="mb-8">
           <input type="file" id="fileInput" accept="image/*" className="hidden" onChange={handleFileSelection} />
           <img src={food} alt="Food Icon" className="w-32 h-32 rounded-md mx-auto mb-4" />
@@ -286,7 +271,6 @@ const Calories = () => {
           </button>
         </div>
 
-        {/* Loading Spinner */}
         {loading && (
             <div className="mb-8 flex justify-center">
               <div role="status">
@@ -297,13 +281,14 @@ const Calories = () => {
                     fill="none"
                 >
                   {/* SVG paths */}
+                  <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="10" />
+                  <path d="M50 15V50H85" stroke="currentColor" strokeWidth="10" />
                 </svg>
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
         )}
 
-        {/* Preview the selected image and calorie info */}
         {!loading && selectedFile && (
             <div className="mb-8 flex justify-center">
               <img
@@ -322,7 +307,6 @@ const Calories = () => {
             </div>
         )}
 
-        {/* Button to add a meal */}
         {!loading && calories && dishName && (
             <button
                 onClick={handleAddMeal}
@@ -332,7 +316,6 @@ const Calories = () => {
             </button>
         )}
 
-        {/* Group Table and Calorie Spike Graph in one row */}
         {meals.length > 0 && (
             <div className="w-full flex flex-wrap mb-8">
               <div className="w-full md:w-1/2 p-2">
@@ -375,7 +358,6 @@ const Calories = () => {
             </div>
         )}
 
-        {/* Group Weekly Analysis and Pie Chart in one row */}
         <div className="w-full flex flex-wrap mb-8">
           {weeklyData.length > 0 && (
               <div className="w-full md:w-1/2 p-2">
@@ -420,7 +402,6 @@ const Calories = () => {
           </div>
         </div>
 
-        {/* Health Recommendation Section */}
         {recommendation && (
             <div className="w-full bg-white shadow-md rounded-md p-4 mb-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Health Recommendation</h2>
@@ -436,9 +417,3 @@ const Calories = () => {
 };
 
 export default Calories;
-
-
-
-
-
-

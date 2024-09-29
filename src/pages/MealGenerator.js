@@ -1,5 +1,3 @@
-// MealGenerator.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MealPlan from "../components/core/MealPlan";
@@ -14,6 +12,7 @@ const MealGenerator = () => {
     useEffect(() => {
         const storedMeal = localStorage.getItem("generatedMeal");
         if (storedMeal) {
+            console.log("Stored meal found:", storedMeal);
             setGeneratedMeal(JSON.parse(storedMeal));
         }
     }, []);
@@ -21,62 +20,63 @@ const MealGenerator = () => {
     const generateMeal = async () => {
         const email = user.email;
         setLoading(true);
-
-        // Clear previously stored meal
-        localStorage.removeItem("generatedMeal");
+        localStorage.removeItem("generatedMeal"); // Clear previous meal
 
         try {
-            // Generate the meal plan
+            console.log("Generating meal for:", email);
             await axios.get(
                 `https://nutrition-ai-backend.onrender.com/meal/generate_meal/${email}`,
                 {
-                    headers: {
-                        accept: "application/json",
-                    },
-                    params: {
-                        email_id: email,
-                    },
+                    headers: { accept: "application/json" },
+                    params: { email_id: email },
                 }
             );
-
-            // Fetch the generated meal plan
-            await showMeal();
+            await showMeal(); // Fetch and show meal after generation
         } catch (error) {
             console.error("Error generating meal:", error);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const showMeal = async () => {
         try {
+            console.log("Fetching meal for display...");
             const response = await axios.get(
                 `https://nutrition-ai-backend.onrender.com/meal/show_meal/${user.email}`,
                 {
-                    headers: {
-                        accept: "application/json",
-                    },
-                    params: {
-                        email_id: user.email,
-                    },
+                    headers: { accept: "application/json" },
+                    params: { email_id: user.email },
                 }
             );
 
             const mealData = response.data;
+            console.log("Meal data fetched:", mealData);
 
-            // Since the API response is an array of days, we can set it directly
-            setGeneratedMeal(mealData);
-            localStorage.setItem("generatedMeal", JSON.stringify(mealData)); // Store meal data in localStorage
+            if (mealData && mealData.length > 0) {
+                setGeneratedMeal(mealData);
+                localStorage.setItem("generatedMeal", JSON.stringify(mealData));
+            } else {
+                console.error("No meal data returned from API");
+            }
         } catch (error) {
             console.error("Error showing meal:", error);
         }
     };
 
-    if (loading)
+    useEffect(() => {
+        if (generatedMeal) {
+            console.log("Generated Meal state updated:", generatedMeal);
+        }
+    }, [generatedMeal]);
+
+    if (loading) {
         return (
             <div className="w-full flex justify-center">
                 <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
             </div>
         );
+    }
 
     return (
         <div className="w-full flex flex-col items-center p-5 overflow-auto">
@@ -87,10 +87,12 @@ const MealGenerator = () => {
                 Generate Meal
             </button>
 
-            {generatedMeal && (
+            {generatedMeal ? (
                 <div className="w-full">
                     <MealPlan mealDetails={generatedMeal} />
                 </div>
+            ) : (
+                <div>No meals available</div>
             )}
         </div>
     );

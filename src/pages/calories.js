@@ -228,6 +228,13 @@ const Calories = () => {
     { name: 'Calories Left', value: caloriesLeft < 0 ? 0 : caloriesLeft }, // Prevent negative calories left
   ];
 
+   if (loading)
+        return (
+            <div className="w-full flex justify-center">
+                <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
+            </div>
+        );
+
   return (
       <div className="w-full flex flex-col items-center p-5 overflow-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-10">Count Your Daily Calories</h1>
@@ -394,3 +401,9 @@ const Calories = () => {
 };
 
 export default Calories;
+
+
+
+
+
+

@@ -38,7 +38,7 @@ const MealGenerator = () => {
             );
 
             // Fetch the generated meal plan after successful generation
-            await showMeal();  // Make sure this function is called here
+            // await showMeal();  // Make sure this function is called here
         } catch (error) {
             console.error("Error generating meal:", error);
         }

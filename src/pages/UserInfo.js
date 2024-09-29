@@ -137,7 +137,6 @@ const UserInfo = () => {
     setLoading(true);
     try {
       const userDetails = JSON.stringify(userInfo);
-      console.log("User details are", userDetails);
       const response = await axios.post(
           "https://nutrition-ai-backend.onrender.com/mongo/write_user_info_to_mongo",
           { data: userDetails },
@@ -150,10 +149,7 @@ const UserInfo = () => {
           }
       );
 
-      console.log(response.data);
-
       if (response.status >= 200 && response.status < 300) {
-        console.log("User info successfully submitted to the server!");
         toast.success("Info successfully submitted!");
         navigate("/mealgenerator");
       } else {

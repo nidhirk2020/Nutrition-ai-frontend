@@ -62,7 +62,7 @@ const Home = () => {
                             </div>
                             <div className="mt-6 text-center relative z-10 space-y-6">
                                 <h2 className="text-3xl font-medium text-base-content">Maintain Healthy Weight</h2>
-                                <p className="text-base-content">It’s time to put away the calculator. Whether you want to maintain or even lose weight, Meal Mentor is the only weight management meal planner.</p>
+                                <p className="text-base-content">It’s time to put away the calculator. Whether you want to maintain or even lose weight, NutriTrack is the only weight management meal planner.</p>
                             </div>
                         </div>
                     </Tilt>
@@ -72,7 +72,7 @@ const Home = () => {
                             <div className="flex flex-col justify-between relative z-10 space-y-12 lg:space-y-6">
                                 <div className="space-y-2">
                                     <h2 className="text-3xl font-medium text-center text-base-content">Take Back Your Time</h2>
-                                    <p className="text-base-content max-w-64 text-center">Skip the cookbook and Pinterest hunt. With MealMentor, you can transform your daily meals with quick, exciting, and nutritious dishes in just 20 minutes or less.</p>
+                                    <p className="text-base-content max-w-64 text-center">Skip the cookbook and Pinterest hunt. With NutriTrack, you can transform your daily meals with quick, exciting, and nutritious dishes in just 20 minutes or less.</p>
                                 </div>
                             </div>
                             <div className="relative aspect-square rounded-full size-32 flex items-center justify-center border mx-auto dark:bg-white/5 dark:border-white/10 before:absolute before:-inset-2 before:border dark:before:border-white/5 dark:before:bg-white/5 before:rounded-full">

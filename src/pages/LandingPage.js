@@ -53,10 +53,10 @@ export default function Landing() {
 
         <div className="w-full h-screen flex flex-col justify-center items-center relative z-10">
           <h1 className="font-bold text-stone-900 text-6xl sm:text-7xl lg:text-9xl -mt-20 bg-gradient-to-r from-green-400 via-green-600 to-green-400 bg-clip-text text-transparent">
-            MealMentor
+            NutriTrack
           </h1>
           <p className="text-2xl text-stone-900 sm:text-3xl font-semibold text-center mt-4 px-4">
-            Your Personal Nutrition Assistant for Smarter, Healthier Meals..
+            Unlock the Secrets to Balanced Meals and Effortless Planning
           </p>
           <button
             className="mt-8 px-6 py-4 text-xl font-medium text-white bg-black rounded-lg border-none hover:scale-105 transition-all duration-200"

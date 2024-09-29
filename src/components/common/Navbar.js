@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300">
       <div className="navbar-start z-20">
-        <Link to="/home" className="hidden sm:block"><img src={logo} alt="logo" className="w-12 ml-16"/></Link>
+        <Link to="/home" className="hidden sm:block"><img src={logo} alt="logo" className="w-32 ml-16 h-32"/></Link>
 
         {/* MOBILE NAVBAR */}
         <div ref={navMenu} className='sm:hidden flex flex-1 justify-end items-center relative'>
@@ -54,7 +54,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-center sm:pl-[13rem]">
         <Link to="/home" className="text-3xl font-bold tracking-wide relative inline cursor-pointer before:bg-blue-500 before:absolute before:-bottom-1 before:block before:h-[2px] before:w-full before:origin-bottom-right before:scale-x-0 before:transition before:duration-300 before:ease-in-out hover:before:origin-bottom-left hover:before:scale-x-100">
-          MealMentor
+          NutriTrack
         </Link>
       </div>
       <div className="navbar-end"></div>

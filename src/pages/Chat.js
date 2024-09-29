@@ -53,7 +53,6 @@ const Chat = () => {
         config
       );
 
-      console.log(response.data); // Check the response structure
 
       // Assuming response.data has 'response' and 'history' fields
       newChatHistory[newChatHistory.length - 1].bot = response.data.response || "No response from AI";

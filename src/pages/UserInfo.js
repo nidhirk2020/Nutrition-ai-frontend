@@ -5,16 +5,13 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const UserInfo = () => {
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
-
   const { user } = useAuth();
-
   const [section, setSection] = useState(1);
-
   const [userInfo, setUserInfo] = useState({
     name: "",
     age: 0,
@@ -48,9 +45,7 @@ const UserInfo = () => {
 
       try {
         const response = await axios.get(
-            `https://nutrition-ai-backend.onrender.com/mongo/read_user_info_from_mongo/${email}?email_id=${encodeURIComponent(
-                email
-            )}`,
+            `https://nutrition-ai-backend.onrender.com/mongo/read_user_info_from_mongo/${email}?email_id=${encodeURIComponent(email)}`,
             {
               headers: {
                 accept: "application/json",
@@ -58,11 +53,7 @@ const UserInfo = () => {
             }
         );
 
-        if (
-            response.status >= 200 &&
-            response.status < 300 &&
-            response.data.data
-        ) {
+        if (response.status >= 200 && response.status < 300 && response.data.data) {
           const data = response.data.data;
           const userData = JSON.parse(data.data);
 
@@ -150,16 +141,32 @@ const UserInfo = () => {
       );
 
       if (response.status >= 200 && response.status < 300) {
+        const { bmi } = response.data; // Extract the BMI from the response
+
         toast.success("Info successfully submitted!");
-        navigate("/mealgenerator");
+
+        // Check BMI and show alert if necessary
+        if (bmi === "underweight" || bmi === "overweight" || bmi === "obese") {
+          Swal.fire({
+            title: 'BMI Alert',
+            text: `Your BMI is classified as ${bmi}. It's important to maintain a healthy weight. For more information, please visit the Calorie Tracker page for personalised recommendation.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Go to Calorie Tracker',
+            cancelButtonText: 'Continue',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/calorie"); // Redirect to Calorie Tracker
+            } else {
+              navigate("/mealgenerator"); // Continue to Meal Generator
+            }
+          });
+        } else {
+          navigate("/mealgenerator"); // Navigate to Meal Generator if BMI is normal
+        }
       } else {
         const responseBody = response.data;
-        console.error(
-            "Failed to submit user info to the server. Status:",
-            response.status,
-            "Response:",
-            responseBody
-        );
+        console.error("Failed to submit user info to the server. Status:", response.status, "Response:", responseBody);
       }
     } catch (error) {
       console.error("Error occurred while submitting user info:", error);
@@ -170,83 +177,33 @@ const UserInfo = () => {
   return (
       <div className="container mx-auto pt-8 overflow-auto">
         <div className="xl:pr-[30rem]">
-          <h1 className="text-3xl font-bold mb-6 text-center">
-            User Information
-          </h1>
+          <h1 className="text-3xl font-bold mb-6 text-center">User Information</h1>
 
           {/* Display existing user details if they exist and the form is not shown */}
           {userDetailsExists && !showForm && existingUserInfo && (
               <div className="max-w-lg mx-auto px-2">
                 <h2 className="text-2xl font-bold mb-4">Your Details</h2>
                 <div className="mb-4">
-                  <p>
-                    <strong>Name:</strong> {existingUserInfo.name}
-                  </p>
-                  <p>
-                    <strong>Age:</strong> {existingUserInfo.age}
-                  </p>
-                  <p>
-                    <strong>Gender:</strong> {existingUserInfo.gender}
-                  </p>
-                  <p>
-                    <strong>Height:</strong> {existingUserInfo.height}
-                  </p>
-                  <p>
-                    <strong>Weight:</strong> {existingUserInfo.weight}
-                  </p>
-                  <p>
-                    <strong>Activity Level:</strong>{" "}
-                    {existingUserInfo.activity_level}
-                  </p>
-                  <p>
-                    <strong>Exercise Hours:</strong>{" "}
-                    {existingUserInfo.exercise_hours}
-                  </p>
-                  <p>
-                    <strong>Job Type:</strong> {existingUserInfo.job_type}
-                  </p>
-                  <p>
-                    <strong>Work Type:</strong> {existingUserInfo.work_type}
-                  </p>
-                  <p>
-                    <strong>Work Hours:</strong> {existingUserInfo.work_hours}
-                  </p>
-                  <p>
-                    <strong>Cooking Hours:</strong>{" "}
-                    {existingUserInfo.cooking_hours}
-                  </p>
-                  <p>
-                    <strong>Proficiency in Cooking:</strong>{" "}
-                    {existingUserInfo.proficiency_in_cooking}
-                  </p>
-                  <p>
-                    <strong>Goals:</strong> {existingUserInfo.goals}
-                  </p>
-                  <p>
-                    <strong>Dietary Restrictions:</strong>{" "}
-                    {existingUserInfo.dietary_restrictions}
-                  </p>
-                  <p>
-                    <strong>Diet Type:</strong> {existingUserInfo.diet_type}
-                  </p>
-                  <p>
-                    <strong>Allergies:</strong> {existingUserInfo.allergies}
-                  </p>
-                  <p>
-                    <strong>Cuisine Preference:</strong>{" "}
-                    {existingUserInfo.cuisine_preference}
-                  </p>
-                  <p>
-                    <strong>Budget:</strong> {existingUserInfo.budget}
-                  </p>
-                  <p>
-                    <strong>Grocery Frequency:</strong>{" "}
-                    {existingUserInfo.grocery_frequency}
-                  </p>
-                  <p>
-                    <strong>Daily Calorie Intake:</strong>{" "}
-                    {existingUserInfo.calorie_goal}
-                  </p>
+                  <p><strong>Name:</strong> {existingUserInfo.name}</p>
+                  <p><strong>Age:</strong> {existingUserInfo.age}</p>
+                  <p><strong>Gender:</strong> {existingUserInfo.gender}</p>
+                  <p><strong>Height:</strong> {existingUserInfo.height}</p>
+                  <p><strong>Weight:</strong> {existingUserInfo.weight}</p>
+                  <p><strong>Activity Level:</strong> {existingUserInfo.activity_level}</p>
+                  <p><strong>Exercise Hours:</strong> {existingUserInfo.exercise_hours}</p>
+                  <p><strong>Job Type:</strong> {existingUserInfo.job_type}</p>
+                  <p><strong>Work Type:</strong> {existingUserInfo.work_type}</p>
+                  <p><strong>Work Hours:</strong> {existingUserInfo.work_hours}</p>
+                  <p><strong>Cooking Hours:</strong> {existingUserInfo.cooking_hours}</p>
+                  <p><strong>Proficiency in Cooking:</strong> {existingUserInfo.proficiency_in_cooking}</p>
+                  <p><strong>Goals:</strong> {existingUserInfo.goals}</p>
+                  <p><strong>Dietary Restrictions:</strong> {existingUserInfo.dietary_restrictions}</p>
+                  <p><strong>Diet Type:</strong> {existingUserInfo.diet_type}</p>
+                  <p><strong>Allergies:</strong> {existingUserInfo.allergies}</p>
+                  <p><strong>Cuisine Preference:</strong> {existingUserInfo.cuisine_preference}</p>
+                  <p><strong>Budget:</strong> {existingUserInfo.budget}</p>
+                  <p><strong>Grocery Frequency:</strong> {existingUserInfo.grocery_frequency}</p>
+                  <p><strong>Daily Calorie Intake:</strong> {existingUserInfo.calorie_goal}</p>
                 </div>
                 <button
                     onClick={() => {
@@ -326,9 +283,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Work Type
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Work Type</span>
                           <select
                               name="work_type"
                               value={userInfo.work_type}
@@ -345,9 +300,7 @@ const UserInfo = () => {
                       </div>
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Height (ft.)
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Height (ft.)</span>
                           <input
                               type="number"
                               name="height"
@@ -361,9 +314,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Weight (lbs)
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Weight (lbs)</span>
                           <input
                               type="number"
                               name="weight"
@@ -388,9 +339,7 @@ const UserInfo = () => {
                     <>
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Activity Level
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Activity Level</span>
                           <select
                               name="activity_level"
                               value={userInfo.activity_level}
@@ -409,9 +358,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Exercise Hours (weekly)
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Exercise Hours (weekly)</span>
                           <input
                               type="number"
                               name="exercise_hours"
@@ -425,9 +372,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Work Hours (weekly)
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Work Hours (weekly)</span>
                           <input
                               type="number"
                               name="work_hours"
@@ -441,9 +386,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Cooking Hours (weekly)
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Cooking Hours (weekly)</span>
                           <input
                               type="number"
                               name="cooking_hours"
@@ -457,9 +400,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Proficiency in Cooking
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Proficiency in Cooking</span>
                           <select
                               name="proficiency_in_cooking"
                               value={userInfo.proficiency_in_cooking}
@@ -508,9 +449,7 @@ const UserInfo = () => {
                     <>
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Dietary Restrictions
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Dietary Restrictions</span>
                           <select
                               name="dietary_restrictions"
                               value={userInfo.dietary_restrictions}
@@ -530,9 +469,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Diet Type
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Diet Type</span>
                           <select
                               name="diet_type"
                               value={userInfo.diet_type}
@@ -551,9 +488,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Allergies
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Allergies</span>
                           <select
                               name="allergies"
                               value={userInfo.allergies}
@@ -574,9 +509,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Cuisine Preference
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Cuisine Preference</span>
                           <select
                               name="cuisine_preference"
                               value={userInfo.cuisine_preference}
@@ -597,9 +530,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Grocery Frequency
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Grocery Frequency</span>
                           <select
                               name="grocery_frequency"
                               value={userInfo.grocery_frequency}
@@ -616,9 +547,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Daily Calorie Intake
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Daily Calorie Intake</span>
                           <input
                               type="number"
                               name="calorie_goal"
@@ -632,9 +561,7 @@ const UserInfo = () => {
 
                       <div className="mb-4">
                         <label className="input input-bordered flex items-center gap-4">
-                    <span className="font-semibold leading-[0.8]">
-                      Budget (dollars)
-                    </span>
+                          <span className="font-semibold leading-[0.8]">Budget (dollars)</span>
                           <input
                               type="number"
                               name="budget"
@@ -673,10 +600,7 @@ const UserInfo = () => {
           <div className="flex flex-col gap-4 text-sm">
             <p>• Ensure all information provided is accurate and up-to-date.</p>
             <p>• Clearly define your health and fitness goals.</p>
-            <p>
-              • Mention any dietary restrictions, allergies, or specific cuisine
-              preferences.
-            </p>
+            <p>• Mention any dietary restrictions, allergies, or specific cuisine preferences.</p>
             <p>• Periodically review and update your information.</p>
           </div>
         </div>

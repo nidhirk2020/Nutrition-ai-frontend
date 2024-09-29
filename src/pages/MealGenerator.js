@@ -37,8 +37,8 @@ const MealGenerator = () => {
                 }
             );
 
-            // Fetch the generated meal plan
-            await showMeal();
+            // Fetch the generated meal plan after successful generation
+            await showMeal();  // Make sure this function is called here
         } catch (error) {
             console.error("Error generating meal:", error);
         }
@@ -64,7 +64,7 @@ const MealGenerator = () => {
             // Log the meal data to verify the structure
             console.log("Fetched meal data:", mealData);
 
-            // Convert the meal array to an object keyed by day (if it is an array)
+            // Convert the meal array to an object keyed by day
             if (Array.isArray(mealData)) {
                 const mealDataObject = mealData.reduce((acc, curr) => {
                     const dayKey = Object.keys(curr)[0]; // Extract day key (e.g., 'day1')
@@ -80,7 +80,6 @@ const MealGenerator = () => {
             console.error("Error showing meal:", error);
         }
     };
-
 
     if (loading)
         return (

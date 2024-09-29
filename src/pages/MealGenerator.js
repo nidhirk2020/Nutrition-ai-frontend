@@ -38,23 +38,24 @@ const MealGenerator = () => {
             );
 
             // Fetch the generated meal plan after successful generation
-            // await showMeal();  // Make sure this function is called here
+            await showMeal(email);
         } catch (error) {
             console.error("Error generating meal:", error);
+        } finally {
+            setLoading(false); // Ensure loading is set to false in finally block
         }
-        setLoading(false);
     };
 
-    const showMeal = async () => {
+    const showMeal = async (email) => {
         try {
             const response = await axios.get(
-                `https://nutrition-ai-backend.onrender.com/meal/show_meal/${user.email}`,
+                `https://nutrition-ai-backend.onrender.com/meal/show_meal/${email}`,
                 {
                     headers: {
                         accept: "application/json",
                     },
                     params: {
-                        email_id: user.email,
+                        email_id: email,
                     },
                 }
             );
@@ -81,12 +82,13 @@ const MealGenerator = () => {
         }
     };
 
-    if (loading)
+    if (loading) {
         return (
             <div className="w-full flex justify-center">
                 <div className="loading loading-dots loading-lg bg-[#41b2de]"></div>
             </div>
         );
+    }
 
     return (
         <div className="w-full flex flex-col items-center p-5 overflow-auto">
